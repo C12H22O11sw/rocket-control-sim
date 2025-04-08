@@ -2,6 +2,7 @@ from scipy.interpolate import CloughTocher2DInterpolator
 import numpy as np
 from scipy.interpolate import interp1d
 import pandas as pd
+from scipy.constants import mile, hour
 
 def parse_prop_data(filename):
     """
@@ -47,6 +48,7 @@ def generate_prop_function(filename, attribute):
 
     for rpm, rpm_data in data.items():
         for velocity, attributes in rpm_data.items():
+            velocity = velocity * mile / hour
             points.append([rpm, velocity])
             values.append(attributes[attribute])
 
