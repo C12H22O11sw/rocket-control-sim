@@ -42,8 +42,8 @@ def generate_prop_function(filename, attribute):
     Generates a 2D interpolator for a specific attribute from propulsion data.
     """
     data = parse_prop_data(filename)
-    points = []
-    values = []
+    points = [[0, 0]]  # Initialize with a point for zero velocity
+    values = [0]  # Initialize with a value for zero velocity
 
     for rpm, rpm_data in data.items():
         for velocity, attributes in rpm_data.items():
@@ -55,6 +55,7 @@ def generate_prop_function(filename, attribute):
 
     # Create a 2D interpolator
     interpolator = CloughTocher2DInterpolator(points, values, fill_value=0)
+
     return interpolator
 
 def func_from_csv(filename: str, x_label: str, y_label: str):
@@ -78,7 +79,7 @@ def main():
     """
     Main function to demonstrate the usage of generate_bla.
     """
-    interpolator = generate_bla('data/PER3_6x6E.dat', 'Thrust')
+    interpolator = generate_prop_function('data/PER3_6x6E.dat', 'Thrust')
     print(interpolator([10000, 20]))  # Example usage
 
 if __name__ == '__main__':
